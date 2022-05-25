@@ -46,13 +46,17 @@ class Hax:
         soup = BeautifulSoup(html_text, "html.parser")
         ctr_list = [x.text for x in soup("option", value=re.compile(r"^[A-Z]{2,}-"))]
         ctr_str = "\n".join(ctr_list)
-		ctr_dict = {}
-		ctr_str = ""
-		for k_v in ctr_list:
-			k, v = k_v
-			ctr_dict.setdefault(k, []).append(v)
-		for k, v in ctr_dict.items():
-			ctr_str += "★" + k + "★ " + ", ".join(v) + "\n"
+        if vir:
+            ctr_list = [
+                (c.split(" (")[1].rstrip(")"), c.split(" (")[0]) for c in ctr_list
+            ]
+            ctr_dict = {}
+            ctr_str = ""
+            for k_v in ctr_list:
+                k, v = k_v
+                ctr_dict.setdefault(k, []).append(v)
+            for k, v in ctr_dict.items():
+                ctr_str += "★" + k + "★ " + ", ".join(v) + "\n"
         return ctr_str
 
     def main(self):
