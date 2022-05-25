@@ -46,25 +46,21 @@ class Hax:
         soup = BeautifulSoup(html_text, "html.parser")
         ctr_list = [x.text for x in soup("option", value=re.compile(r"^[A-Z]{2,}-"))]
         ctr_str = "\n".join(ctr_list)
-        if vir:
-            ctr_list = [
-                (c.split(" (")[1].rstrip(")"), c.split(" (")[0]) for c in ctr_list
-            ]
-            ctr_dict = {}
-            ctr_str = ""
-            for k_v in ctr_list:
-                k, v = k_v
-                ctr_dict.setdefault(k, []).append(v)
-            for k, v in ctr_dict.items():
-                ctr_str += "★" + k + "★ " + ", ".join(v) + "\n"
+		ctr_dict = {}
+		ctr_str = ""
+		for k_v in ctr_list:
+			k, v = k_v
+			ctr_dict.setdefault(k, []).append(v)
+		for k, v in ctr_dict.items():
+			ctr_str += "★" + k + "★ " + ", ".join(v) + "\n"
         return ctr_str
 
     def main(self):
         hax_str = self.get_server_info("https://hax.co.id/data-center")
         hax_stat = f"[🛰Hax Stats / Hax 开通数据]\n{hax_str}\n"
-        vir_str = self.get_data_center("https://hax.co.id/create-vps", True)
+        vir_str = self.get_data_center("https://hax.co.id/create-vps")
         woiden_str = self.get_data_center("https://woiden.id/create-vps")
-        data_center = f'[🚩Available Centers / 可开通区域]\n---------- <a href="https://hax.co.id/create-vps">Hax</a> ----------\n{vir_str}---------- <a href="https://woiden.id/create-vps">Woiden</a> ----------\n{woiden_str}\n'
+        data_center = f'[🚩Available Centers / 可开通区域]\n---------- Hax ----------\n{vir_str}\n---------- Woiden ----------\n{woiden_str}\n'
         msg = hax_stat + data_center
         return msg
 
